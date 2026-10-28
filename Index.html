@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendify | Attendance Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-icon">A</div>
+    <div class="brand">
+      <h1>Attendify</h1>
+      <p>Smart Student Attendance System</p>
+    </div>
+    <span class="course-tag">BSc Computer Science</span>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">CLASSROOM MANAGEMENT</p>
+        <h2>Attendance Dashboard</h2>
+        <p>Track attendance, manage students, and monitor class performance.</p>
+      </div>
+      <div class="date-box">
+        <label for="attendanceDate">Select attendance date</label>
+        <input type="date" id="attendanceDate">
+      </div>
+    </section>
+
+    <section class="stats">
+      <article class="stat purple">
+        <span>Total Students</span>
+        <strong id="totalStudents">0</strong>
+        <small>Registered in class</small>
+      </article>
+      <article class="stat green">
+        <span>Present</span>
+        <strong id="presentCount">0</strong>
+        <small>Present today</small>
+      </article>
+      <article class="stat red">
+        <span>Absent</span>
+        <strong id="absentCount">0</strong>
+        <small>Absent today</small>
+      </article>
+      <article class="stat blue">
+        <span>Overall Attendance</span>
+        <strong id="overallPercentage">0%</strong>
+        <small>Selected date</small>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="heading">
+        <div>
+          <h3 id="formTitle">Add a Student</h3>
+          <p>Register or update student details.</p>
+        </div>
+      </div>
+
+      <form id="studentForm" class="student-form">
+        <input id="studentId" placeholder="Student ID (e.g. BCS026)"
+          maxlength="20" required>
+        <input id="studentName" placeholder="Student full name"
+          maxlength="80" required>
+        <select id="studentDepartment" required>
+          <option value="BSc Computer Science">BSc Computer Science</option>
+        </select>
+        <div class="form-actions">
+          <button class="primary-btn" id="saveStudentBtn" type="submit">
+            + Add Student
+          </button>
+          <button class="secondary-btn" id="cancelEditBtn"
+            type="button" hidden>Cancel Edit</button>
+        </div>
+      </form>
+      <p id="formMessage" class="message" role="status"></p>
+    </section>
+
+    <section class="panel">
+      <div class="heading">
+        <div>
+          <h3>Find Your Students</h3>
+          <p>Search by name, ID, or department and filter by attendance status.</p>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="searchInput" type="search"
+          placeholder="🔎 Search name, student ID, department...">
+        <select id="departmentFilter">
+          <option value="all">All Departments</option>
+          <option value="BSc Computer Science">BSc Computer Science</option>
+        </select>
+        <select id="statusFilter">
+          <option value="all">All Attendance Statuses</option>
+          <option value="Present">Present</option>
+          <option value="Absent">Absent</option>
+          <option value="Late">Late</option>
+          <option value="Leave">Leave</option>
+          <option value="On Duty">On Duty</option>
+          <option value="Not Marked">Not Marked</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="heading attendance-heading">
+        <div>
+          <h3>Daily Attendance Register</h3>
+          <p>Select the status for each student. It saves automatically.</p>
+        </div>
+        <span class="pill" id="markedLabel">0 / 0 marked</span>
+      </div>
+
+      <div class="bulk-actions">
+        <button id="markAllPresent" class="present-btn" type="button">
+          ✓ Mark All Present
+        </button>
+        <button id="markAllAbsent" class="absent-btn" type="button">
+          ✕ Mark All Absent
+        </button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Student ID</th>
+              <th>Student Name</th>
+              <th>Department</th>
+              <th>Attendance %</th>
+              <th>Mark Attendance</th>
+              <th>History</th>
+              <th>Manage</th>
+            </tr>
+          </thead>
+          <tbody id="studentTable"></tbody>
+        </table>
+      </div>
+      <p id="emptyMessage" class="empty" hidden>No matching students found.</p>
+      <p class="note">Each student can have only one attendance status per date. Selecting a different status updates that day's record.</p>
+    </section>
+
+    <section class="panel">
+      <div class="heading">
+        <div>
+          <h3>Low Attendance Alerts</h3>
+          <p>Choose the minimum percentage required for your class.</p>
+        </div>
+      </div>
+      <div class="threshold-row">
+        <label for="threshold">Attendance threshold (%)</label>
+        <input id="threshold" type="number" min="1" max="100" value="75">
+        <span>Default: 75%</span>
+      </div>
+      <div id="lowAttendanceList" class="alerts"></div>
+    </section>
+
+    <section class="panel" id="historyPanel" hidden>
+      <div class="heading">
+        <div>
+          <h3 id="historyTitle">Student History</h3>
+          <p id="historySubtitle"></p>
+        </div>
+        <button id="closeHistory" class="secondary-btn" type="button">Close</button>
+      </div>
+      <div id="historySummary" class="history-summary"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Status</th></tr></thead>
+          <tbody id="historyTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <strong>Attendify</strong> · Student Attendance Tracking Application
+      <p>Demo project · Data is stored locally in this browser.</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
